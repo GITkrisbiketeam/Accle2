@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+	
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+    	<TextView 
+        	android:text="Register: "
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	/>
+    	<TextView 
+    	    android:id="@+id/blue_sensors_info_edit_reg_selected_register"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+    	<TextView 
+        	android:text="Value:"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	/>
+    	<EditText 
+    	    android:id="@+id/blue_sensors_info_edit_reg_value"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:singleLine="true"
+        	android:inputType="number"
+        	android:selectAllOnFocus="true"
+        	/>
+    </LinearLayout>	
+</LinearLayout>

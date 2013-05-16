@@ -1,0 +1,147 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/blue_msp430_title_device"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="Conneted to: " />
+    <TextView
+        android:id="@+id/blue_msp430_title_device_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/blue_msp430_title_device" 
+        android:text=":???" />
+    
+    <TextView
+        android:id="@+id/blue_msp430_title_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/blue_msp430_title_device"
+        android:text="Address: " />
+    <TextView
+        android:id="@+id/blue_msp430_title_address_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/blue_msp430_title_device"
+        android:layout_toRightOf="@+id/blue_msp430_title_address" 
+        android:text=":???" />
+    
+    <CheckBox
+        android:id="@+id/blue_msp430_check_box_cont_send"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/blue_msp430_title_address"
+        android:checked="false"
+        android:onClick="blue_msp430_checkBoxContSend"
+        android:text="@string/blue_msp430_check_box_cont_send" />
+
+    <Button
+        android:id="@+id/blue_msp430_button_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/blue_msp430_check_box_cont_send"
+        android:onClick="blue_msp430_acctivity_button_start"
+        android:text="@string/blue_msp430_acctivity_button_start" />
+
+    <Button
+        android:id="@+id/blue_msp430_button_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/blue_msp430_check_box_cont_send"
+        android:layout_toRightOf="@+id/blue_msp430_button_start"
+        android:onClick="blue_msp430_acctivity_button_stop"
+        android:text="@string/blue_msp430_acctivity_button_stop" />
+
+    <CheckBox
+        android:id="@+id/blue_msp430_check_box_cont_send_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/blue_msp430_button_start"
+        android:checked="false"
+        android:onClick="blue_msp430_checkBoxContSendNew"
+        android:text="@string/blue_msp430_check_box_cont_send_new" />
+
+    <Button
+        android:id="@+id/blue_msp430_button_start_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/blue_msp430_check_box_cont_send_new"
+        android:onClick="blue_msp430_acctivity_button_start_new"
+        android:text="@string/blue_msp430_acctivity_button_start_new" />
+
+    <Button
+        android:id="@+id/blue_msp430_button_stop_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/blue_msp430_button_start_new"
+        android:layout_below="@+id/blue_msp430_check_box_cont_send_new"
+        android:onClick="blue_msp430_acctivity_button_stop_new"
+        android:text="@string/blue_msp430_acctivity_button_stop_new" />
+
+    
+
+
+    <TextView
+        android:id="@+id/blue_msp430_textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/blue_msp430_button_start_new"
+        android:text="MSP430 Temp: " />
+	<TextView
+        android:id="@+id/blue_msp430_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_toRightOf="@+id/blue_msp430_textView1"
+        android:layout_below="@+id/blue_msp430_button_start_new"
+        android:text="0" />
+    
+    <TextView
+        android:id="@+id/blue_msp430_textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/blue_msp430_textView1"
+        android:text=" CTemp: " />
+    <TextView
+        android:id="@+id/blue_msp430_coreTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_toRightOf="@+id/blue_msp430_textView2"
+        android:layout_below="@+id/blue_msp430_textView1"
+        android:text="0" />
+    
+    <TextView
+        android:id="@+id/blue_msp430_textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/blue_msp430_textView2"
+        android:text=" Vcc: " />
+    <TextView
+        android:id="@+id/blue_msp430_supplyVoltage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+		android:layout_toRightOf="@+id/blue_msp430_textView3"
+        android:layout_below="@+id/blue_msp430_textView2"
+        android:text="0" />
+
+    <Button
+        android:id="@+id/blue_msp430_button_sensor_registers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/blue_msp430_supplyVoltage"
+        android:onClick="blue_msp430_acctivity_button_sensor_registers"
+        android:text="@string/blue_msp430_acctivity_button_sensor_registers" />
+    
+</RelativeLayout>

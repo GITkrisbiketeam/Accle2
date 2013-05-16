@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/contextMenuRecord" 
+        android:title="Record Draw" 
+        android:titleCondensed="Rec." 
+        android:visible="true" >
+    </item>
+    <item android:id="@+id/contextMenuStopRecord" 
+        android:title="Stop Record Draw" 
+        android:titleCondensed="Stop Rec." 
+        android:visible="false" >
+    </item>
+    <item android:id="@+id/contextMenuScaleLin" 
+        android:title="Linear Scale" 
+        android:titleCondensed="Lin Scale" 
+        android:checkable="true" >
+    </item>
+    <item android:id="@+id/contextMenuScaleLog" 
+        android:title="Log Scale" 
+        android:titleCondensed="Log Scale" 
+        android:checkable="true">
+    </item>
+    <item android:id="@+id/contextMenuAvaregeDraw" 
+        android:title="Uśrednij wykres" 
+        android:titleCondensed="Uśrednij wykres" 
+        android:checkable="true"
+        android:enabled="false">
+    </item>
+	<item android:id="@+id/contextMenuDeleteDraw" 
+        android:title="Usuń wykres" 
+        android:titleCondensed="Usuń wykres" >
+    </item>
+    
+
+</menu>

@@ -1,0 +1,41 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_add_draw"
+        android:title="@string/menu_add_draw"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" 
+        android:icon="@drawable/dark_content_new"/>
+    
+    <item android:id="@+id/menu_remove_draw"
+        android:title="@string/menu_remove_draw"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" 
+        android:icon="@drawable/dark_content_remove"/>
+    
+    <item android:id="@+id/menu_save_to_file"
+        android:title="@string/menu_save_to_file"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" 
+        android:icon="@drawable/dark_content_save"/>
+    
+    <item android:id="@+id/menu_read_from_file"
+        android:title="@string/menu_read_from_file"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" 
+        android:icon="@drawable/dark_content_open"/>
+    
+    <item android:id="@+id/menu_settings"
+        android:title="@string/menu_settings"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" />
+    
+    <item android:id="@+id/menu_bt_connect"
+        android:title="@string/menu_bt_connect"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" />
+    
+    <item android:id="@+id/menu_bt_disconnect"
+        android:title="@string/menu_bt_disconnect"
+        android:orderInCategory="100"
+        android:showAsAction="ifRoom" />
+    
+</menu>

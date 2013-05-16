@@ -1,0 +1,56 @@
+<resources>
+
+    <string name="app_name">Accel 2</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">Accel2</string>
+    <string name="saved_files_list_activity">SavedFilesList</string>
+    <string name="settings_activity">Settings</string>
+    <string name="dummy_activity_progress">Progress Activity</string>
+    <string name="blue_msp430_sactivity">BlueMSP430 Activity</string>
+    <string name="blue_msp430_sensors_info_tab_activity">BlueMSP430 Registers</string>
+    
+    
+<!--  Main Activity Settings -->    
+    <string name="menu_settings">Settings</string>
+    <string name="menu_add_draw">Add Sensor Draw</string>
+	<string name="menu_remove_draw">Remove Sensor Draw</string>
+	<string name="menu_save_to_file">Save sensor data to file</string>
+	<string name="menu_read_from_file">Read sensor data from file</string>
+	<string name="menu_bt_connect">BT connect to MSP430</string>
+	<string name="menu_bt_disconnect">Disconnect BT to MSP430</string>
+	
+	<string name="main_acctivity_button1">BlueMSP430</string>
+    <string name="main_acctivity_button2">Open File</string>
+    <string name="main_acctivity_button3">Sensors</string>
+    <string name="main_acctivity_button4">Save to File</string>
+    
+<!--  BluetoothService -->
+    <string name="title_connecting">connecting~</string>
+    <string name="title_connected_to">connected:</string>
+    <string name="title_not_connected">not connected</string>
+    <string name="no_bluetooth_adapter">Bluetooth is not available</string>
+    
+    
+<!--  BluetoothDeviceListActivity -->
+    <string name="scanning">scanning for devices~</string>
+    <string name="select_device">select a device to connect</string>
+    <string name="none_paired">No devices have been paired</string>
+    <string name="none_found">No devices found</string>
+    <string name="title_paired_devices">Paired Devices</string>
+    <string name="title_other_devices">Other Available Devices</string>
+    <string name="button_scan">Scan for devices</string>
+
+    
+<!--  BlueMSP430Activity -->
+
+	<string name="blue_msp430_check_box_cont_send">Continuous sensing</string>
+    <string name="blue_msp430_acctivity_button_start">Start</string>
+    <string name="blue_msp430_acctivity_button_stop">Stop</string>
+    <string name="blue_msp430_check_box_cont_send_new">New continuous sensing</string>
+    <string name="blue_msp430_acctivity_button_start_new">Start</string>
+    <string name="blue_msp430_acctivity_button_stop_new">Stop</string>
+    <string name="blue_msp430_acctivity_button_sensor_registers">BlueMSP430 Registers</string>
+    
+    
+    
+</resources>

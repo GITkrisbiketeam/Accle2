@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory
+        android:title="First Category"
+        android:key="first_category">
+        
+	    <Preference 
+	        android:key="drawScale1"
+	        android:title="Plot Scale"
+	        android:defaultValue="log"/>
+		<CheckBoxPreference
+			android:key="logScale"
+			android:title="Log Scale"
+			android:summary="Plot in Log scale" />
+		
+	</PreferenceCategory>
+
+</PreferenceScreen>
