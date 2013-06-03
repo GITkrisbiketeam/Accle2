@@ -42,7 +42,7 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 	protected float mMaximumRange;
     protected float mMinimumRange;
     protected float mResolution;
-    protected long mSensorTimeStamp;
+    //protected long mSensorTimeStamp;
     protected int type;						//sensor type
     
     protected MySensor sensor;
@@ -95,10 +95,10 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
     /**
      * nazwa czujnika z ktï¿½rego wyï¿½wietlane sï¿½ dane
      */
-    protected String sensorName = "";
-    protected String scaleMax = "";
-    protected String scaleMin = "";
-    protected String scaleZero = "";
+    protected String sensorNameText = "";
+    protected String scaleMaxText = "";
+    protected String scaleMinText = "";
+    protected String scaleZeroText = "";
     
     public DrawView(MySensor sensor, MySensorManager sensorManager, Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -221,8 +221,8 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 			mMaximumRange = sensor.getMaximumRange()/scaleFactor;
 			mMinimumRange = -sensor.getMaximumRange()/scaleFactor;//getMinimumRange();
 			
-			scaleMax = Float.toString(mMaximumRange);
-			scaleMin = Float.toString(mMinimumRange);
+			scaleMaxText = Float.toString(mMaximumRange);
+			scaleMinText = Float.toString(mMinimumRange);
 			
 			rebuildScale();
 			
@@ -263,10 +263,10 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 		if(points == null) return;
 		
 		canvas.drawLines(points[0], 0, numOfPointsNew, paintDraw);
-		canvas.drawText(scaleMax, 0, paintTextBlack.getTextSize(), paintTextBlack);
-		canvas.drawText(scaleMin, 0, mViewHeight, paintTextBlack);
+		canvas.drawText(scaleMaxText, 0, paintTextBlack.getTextSize(), paintTextBlack);
+		canvas.drawText(scaleMinText, 0, mViewHeight, paintTextBlack);
 		
-		canvas.drawText(sensorName, mViewWidth, paintTextBlack.getTextSize(), paintTextRedRight);
+		canvas.drawText(sensorNameText, mViewWidth, paintTextBlack.getTextSize(), paintTextRedRight);
 		
 		if(recorded)
 			canvas.drawCircle(mViewHeight, mViewWidth, 5, paintDrawRed);
@@ -291,15 +291,15 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 		mMaximumRange = sensor.getMaximumRange();
 		mMinimumRange = -sensor.getMaximumRange();//getMinimumRange();
 		mResolution = sensor.getResolution();
-		sensorName = sensor.getName();
+		sensorNameText = sensor.getName();
 		type = sensor.getType();
 		this.sensor = sensor;
 		this.sensorManager = sensorManager;
 		
 		MAX_ZOOM = mMaximumRange/mResolution;
 		
-		scaleMax = Float.toString((int) mMaximumRange);
-		scaleMin = Float.toString((int) mMinimumRange);
+		scaleMaxText = Float.toString((int) mMaximumRange);
+		scaleMinText = Float.toString((int) mMinimumRange);
 		//rebuildScale();
 		
 		registerMySensorListener();
@@ -324,30 +324,16 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 		
 	}
 	
-	/**
-	 * funkcja wywoï¿½ywana z Activity po odebraniu danych z WNï¿½TRZNEGO czujnika z wartoï¿½ciami z tego czujnika
-	 * @param event wartoï¿½ci z czujnika
-	 */
-	@Deprecated
-	public void sensorChanged(MySensorEvent event) {
-		//sprawdza czy event jest przeznaczony dla wykresu tego czujnika
-		if(type == event.sensor.getType()){
-			mSensorTimeStamp = event.timestamp;
-		    
-			addPointsToTable(event.values);
-			
-		}
-		
-	}
+	
 	
 	@Override
 	public void onMySensorValueChaneged(MySensorEvent event) {
 		//sprawdza czy event jest przeznaczony dla wykresu tego czujnika
 		if(event.sensor == this.sensor)
 			if(type == event.sensor.getType()){
-				mSensorTimeStamp = event.timestamp;
+				//mSensorTimeStamp = event.timestamp;
 			    
-				addPointsToTable(event.values);
+				addPointsToTable(event.values, event.timestamp);
 				//if (D) Log.d(TAG, event.sensor.getBlueMSP430Sensor().getBtDevice().getAddress() + " :" + mSensorTimeStamp);
 			}
 		
@@ -357,8 +343,9 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 	/**
 	 * dodaje punkty do loklanej tablicy pointsX, pointsY, pointsZ z nowï¿½ liniï¿½ do narysowania
 	 * @param values	tablica z wartoï¿½ciami danych z czujnika
+	 * @param timeStamp	czas nano wyst¹pienia zda¿enia
 	 */
-	protected void addPointsToTable(float[] value){
+	protected void addPointsToTable(float[] value, long timeStamp){
 		if(mViewWidth == 0 || mViewHeight == 0) return;
 		
 		if(points == null){

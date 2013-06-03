@@ -8,6 +8,7 @@ import pl.krisbiketeam.accel2.SensorService.LocalBinder;
 import pl.krisbiketeam.accel2.drawView.DrawView;
 import pl.krisbiketeam.accel2.drawView.DrawViewMultiple;
 import pl.krisbiketeam.accel2.drawView.DrawViewMultipleFromFile;
+import pl.krisbiketeam.accel2.drawView.DrawViewTimeSyncMultiple;
 import pl.krisbiketeam.accel2.drawView.MyLog;
 import pl.krisbiketeam.accel2.drawView.MyLin;
 import pl.krisbiketeam.accel2.file.ReadFromFile;
@@ -700,7 +701,7 @@ public class Accel2 extends Activity {
 	 */
 	public void addDrawSensor(MySensor sensor){
 
-		mDrawViews.add(new DrawViewMultiple(sensor, mMySensorManager, this, null));
+		mDrawViews.add(new DrawViewTimeSyncMultiple(sensor, mMySensorManager, this, null));
 		//mSensorService.startSensorListen(sensor);
 		
 		// zarejestruj przechwytywanie d�ugiego klikni�cia do utweorzenia contextMenu

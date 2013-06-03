@@ -9,7 +9,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
 
-public class DrawViewMultiple extends DrawView{
+public class DrawViewTimeSyncMultiple extends DrawViewTimeSync{
 
 	// Debugging
 	private static final String TAG = "DrawViewMultiple";
@@ -32,19 +32,19 @@ public class DrawViewMultiple extends DrawView{
     protected Paint paintDraw[];
    
 
-	public DrawViewMultiple(MySensor sensor, MySensorManager sensorManager, Context context, AttributeSet attrs) {
-		super(sensor, sensorManager, context, attrs);
+	public DrawViewTimeSyncMultiple(MySensor sensor, MySensorManager sensorManage, Context context, AttributeSet attrs) {
+		super(sensor, sensorManage, context, attrs);
 	}
 	@Deprecated
-	public DrawViewMultiple(Context context) {
+	public DrawViewTimeSyncMultiple(Context context) {
 		super(context);
 	}
 	@Deprecated
-	public DrawViewMultiple(Context context, AttributeSet attrs) {
+	public DrawViewTimeSyncMultiple(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 	@Deprecated
-	public DrawViewMultiple(Context context, AttributeSet attrs, int defStyle) {
+	public DrawViewTimeSyncMultiple(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
 
@@ -103,8 +103,49 @@ public class DrawViewMultiple extends DrawView{
 	 */
 	@Override
 	protected void addPointsToTable(float[] values, long timeStamp){
+		
 		if(mViewWidth == 0 || mViewHeight == 0) return;
 		
+		if(points == null){
+			points = new float[1][mViewWidth*4 + 2];		// zapasowe dwa punkty na pocz¹tek kolejnego punktu
+			numOfPointsNew = 0;
+			nanoTimeOffset = timeStamp;
+			/*
+			 * 100Hz -> 10ms -> 10 000us - 10 000 000ns
+			 */
+			nanoTimeScale = 10000000;
+			rebuildScale();
+			for(byte i = 0; i < drawCount; i++){
+				//bieï¿½ï¿½cy punkt
+				points[i][numOfPointsNew] = (timeStamp - nanoTimeOffset) / nanoTimeScale; //mo¿e zrobic rzutowanie/zamieniæ na inty to siê szybciej wykona
+				points[i][numOfPointsNew + 1] = mMyScale.myScaledValue(values[i]);
+			}
+			return;
+		}
+		
+		if(numOfPointsNew >= mViewWidth * 4){
+       
+        	numOfPointsNew = 0;
+        	nanoTimeOffset = timeStamp;
+        	for(byte i = 0; i < drawCount; i++){
+        		points[i][numOfPointsNew] = (timeStamp - nanoTimeOffset) / nanoTimeScale; //mo¿e zrobic rzutowanie/zamieniæ na inty to siê szybciej wykona
+        		points[i][numOfPointsNew + 1] = mMyScale.myScaledValue(values[i]);
+        	}
+			return;
+        }
+		
+		for(byte i = 0; i < drawCount; i++){
+			//bieï¿½ï¿½cy punkt
+			points[i][numOfPointsNew + 2] = (timeStamp - nanoTimeOffset) / nanoTimeScale; //mo¿e zrobic rzutowanie/zamieniæ na inty to siê szybciej wykona;
+			points[i][numOfPointsNew + 3] = mMyScale.myScaledValue(values[i]);
+			//punkt do nastï¿½pnej linii
+			points[0][numOfPointsNew + 4] = points[0][numOfPointsNew + 2];
+			points[0][numOfPointsNew + 5] = points[0][numOfPointsNew + 3];
+		}
+		numOfPointsNew +=4;
+        
+		invalidate();
+		/*
 		if(points == null){
 			drawCount = values.length;
 			points = new float[values.length][mViewWidth*4];
@@ -144,5 +185,6 @@ public class DrawViewMultiple extends DrawView{
 		}
 		
 		invalidate();
+		*/
 	}
 }

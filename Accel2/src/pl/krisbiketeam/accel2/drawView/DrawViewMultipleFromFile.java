@@ -99,8 +99,8 @@ public class DrawViewMultipleFromFile extends DrawViewMultiple{
 						mMaximumRange = mMinimumRange + maxDrawRange;
 					}
 						
-					scaleMax = Float.toString((int) mMaximumRange);
-					scaleMin = Float.toString((int) mMinimumRange);
+					scaleMaxText = Float.toString((int) mMaximumRange);
+					scaleMinText = Float.toString((int) mMinimumRange);
 					
 					rebuildScale();						
 					
@@ -128,7 +128,7 @@ public class DrawViewMultipleFromFile extends DrawViewMultiple{
 		
 		calendar.setTimeInMillis(mReadFromFileData.mSensorTimeStampPoints[offset/4]);///1000000);
 		canvas.drawText(formatter.format(calendar.getTime()), 0, mViewHeight/2, paintTextBlack);
-		//canvas.drawText(sensorName, mViewWidth, paintTextBlack.getTextSize(), paintBlackRight);
+		//canvas.drawText(sensorNameText, mViewWidth, paintTextBlack.getTextSize(), paintBlackRight);
 		
 	}
 	
