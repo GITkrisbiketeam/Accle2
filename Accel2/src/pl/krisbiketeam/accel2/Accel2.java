@@ -6,7 +6,6 @@ import java.util.List;
 
 import pl.krisbiketeam.accel2.SensorService.LocalBinder;
 import pl.krisbiketeam.accel2.drawView.DrawView;
-import pl.krisbiketeam.accel2.drawView.DrawViewMultiple;
 import pl.krisbiketeam.accel2.drawView.DrawViewMultipleFromFile;
 import pl.krisbiketeam.accel2.drawView.DrawViewTimeSyncMultiple;
 import pl.krisbiketeam.accel2.drawView.MyLog;

@@ -13,11 +13,12 @@ public class MySettings {
 	private static boolean settingsLoaded = false;
 	
 	private static boolean senseOnNotActive;
-	public static boolean logScale;
+	private static boolean logScale;
 	private static boolean changeAllScales;
 	private static boolean writeToFlash;			//czy mamy zapis do pamiêci Flash czy w przeciwnym przypadku RAM
 	private static boolean memoryWriteEnable;			//czy mamy zapisywaæ dane w trybie przesy³¹nia przez bluetooth
-	private static boolean allowZoom;				
+	private static boolean allowZoom;	
+	private static boolean allowTimeZoom;
 		
 	public static final String SENSE_ON_NOT_ACTIVE = "senseOnNotActive";
 	public static final String LOG_SCALE = "logScale";
@@ -25,6 +26,7 @@ public class MySettings {
 	public static final String WRITE_TO_FLASH = "writeToFlash";			//czy mamy zapis do pamiêci Flash czy w przeciwnym przypadku RAM
 	public static final String MEMORY_WRITE_ENABLE = "memoryWriteEnable";			//czy mamy zapisywaæ dane w trybie przesy³¹nia przez bluetooth
 	public static final String ALLOW_ZOOM = "allowZoom";
+	public static final String ALLOW_TIME_ZOOM = "allowTimeZoom";
 	
 
 	//handler do g³ównej aplikacji
@@ -56,6 +58,8 @@ public class MySettings {
 		writeToFlash = prefs.getBoolean(WRITE_TO_FLASH, false);
 		memoryWriteEnable = prefs.getBoolean(MEMORY_WRITE_ENABLE, false);
 		allowZoom = prefs.getBoolean(ALLOW_ZOOM, false);
+		allowTimeZoom = prefs.getBoolean(ALLOW_TIME_ZOOM, false);
+		
 	}
 	
 	/**
@@ -97,10 +101,16 @@ public class MySettings {
 	 * sprawdza czy mo¿liwe jest zoomowanie wykresu
 	 * @return the allowZoom
 	 */
-	public static boolean isAllowZoom() {
+	public boolean isAllowZoom() {
 		return allowZoom;
 	}
-	
+	/**
+	 * sprawdza czy mo¿liwe jest zoomowanie wykresu w osi czasu
+	 * @return the allowZoom
+	 */
+	public boolean isAllowTimeZoom() {
+		return allowTimeZoom;
+	}
 	
 	
 	//klasa do sprawdzenia wartoœæ w Preferences odnoœnie typu skali wykresu

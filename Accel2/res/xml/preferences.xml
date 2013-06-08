@@ -13,6 +13,14 @@
 			android:key="logScale"
 			android:title="Log Scale"
 			android:summary="Plot in Log scale" />
+		<CheckBoxPreference
+			android:key="allowZoom"
+			android:title="Allow Zooming"
+			android:summary="Allow Amplitude Zooming" />
+		<CheckBoxPreference
+			android:key="allowTimeZoom"
+			android:title="Time Zooming"
+			android:summary="Allow Time Zooming" />
 		
 	</PreferenceCategory>
 

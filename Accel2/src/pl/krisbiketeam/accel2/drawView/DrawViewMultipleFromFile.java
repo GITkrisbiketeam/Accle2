@@ -58,6 +58,7 @@ public class DrawViewMultipleFromFile extends DrawViewMultiple{
 		
 		formatter = new SimpleDateFormat("HH:mm:ss.SSS",Locale.FRANCE);
 		calendar = Calendar.getInstance();
+		mSetings = new MySettings(context.getApplicationContext());
 		
 	}
 	
@@ -176,7 +177,8 @@ public class DrawViewMultipleFromFile extends DrawViewMultiple{
 			points = new float[drawCount][mViewWidth*4];
 		}
 		int zoom;
-		if(MySettings.logScale)
+		
+		if(mSetings.isLogScale())
 			zoom = 1;
 		else
 			zoom = 3;

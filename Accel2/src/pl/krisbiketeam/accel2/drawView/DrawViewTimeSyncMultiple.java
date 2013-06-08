@@ -30,7 +30,8 @@ public class DrawViewTimeSyncMultiple extends DrawViewTimeSync{
      * kolorki wykresów
      */
     protected Paint paintDraw[];
-   
+    
+    
 
 	public DrawViewTimeSyncMultiple(MySensor sensor, MySensorManager sensorManage, Context context, AttributeSet attrs) {
 		super(sensor, sensorManage, context, attrs);
@@ -83,6 +84,7 @@ public class DrawViewTimeSyncMultiple extends DrawViewTimeSync{
 		canvas.drawText(scaleMinText, 0, mViewHeight, paintTextBlack);
 		
 		canvas.drawText(sensorNameText, mViewWidth, paintTextBlack.getTextSize(), paintTextBlackRight);
+		canvas.drawText(scaleTimeText, mViewWidth, mViewHeight, paintTextRedRight);
 		
 		if(recorded){
 			canvas.drawText("Recorded", mViewWidth, mViewHeight, paintTextRedRight);
@@ -111,19 +113,23 @@ public class DrawViewTimeSyncMultiple extends DrawViewTimeSync{
 			points = new float[drawCount][mViewWidth*4 + 2];		// zapasowe dwa punkty na pocz¹tek kolejnego punktu
 			numOfPointsNew = 0;
 			nanoTimeOffset = timeStamp;
-			/*
-			 * 100Hz -> 10ms -> 10 000us - 10 000 000ns
-			 */
-			nanoTimeScale = 5000000;
 			rebuildScale();
 			for(byte i = 0; i < drawCount; i++){
 				//bieï¿½ï¿½cy punkt
 				points[i][numOfPointsNew] = (timeStamp - nanoTimeOffset) / nanoTimeScale; //mo¿e zrobic rzutowanie/zamieniæ na inty to siê szybciej wykona
 				points[i][numOfPointsNew + 1] = mMyScale.myScaledValue(values[i]);
 			}
+			//ustawiamy flagê ¿eby obliczy³o nanoTimeScale
+			init = true;
 			return;
 		}
-		
+		//obliczamy nanoTimeScale tylko
+		if(init){
+			nanoTimeScale= timeStamp - nanoTimeOffset;
+			scaleTimeText = Float.toString(1/nanoTimeScale * 1000000000) + "Hz";
+			init = false;
+		}
+				
 		if(numOfPointsNew >= mViewWidth * 4 || (timeStamp - nanoTimeOffset) / nanoTimeScale >= mViewWidth){
        
         	numOfPointsNew = 0;
@@ -146,46 +152,6 @@ public class DrawViewTimeSyncMultiple extends DrawViewTimeSync{
 		numOfPointsNew +=4;
         
 		invalidate();
-		/*
-		if(points == null){
-			drawCount = values.length;
-			points = new float[values.length][mViewWidth*4];
-			numOfPointsNew = 0;
-			timeAxisNew = 0;
-			rebuildScale();
-			for(byte i = 0; i < drawCount; i++){
-				points[i][numOfPointsNew] = timeAxisNew;
-				points[i][numOfPointsNew + 1] = mMyScale.myScaledValue(values[i]);
-			}
-			
-			return;
-		}
 		
-		if(timeAxisNew < mViewWidth - 1){
-        	timeAxisNew++;
-        	numOfPointsNew +=4;
-        }
-        else{
-        	timeAxisNew = 0;        	
-        	numOfPointsNew = 0;
-        	for(byte i = 0; i < drawCount; i++){
-				points[i][numOfPointsNew] = timeAxisNew;
-				points[i][numOfPointsNew + 1] = mMyScale.myScaledValue(values[i]);
-			}
-			return;
-        } 
-		
-		for(byte i = 0; i < drawCount; i++){
-			//bie¿¹cy punkt
-			points[i][numOfPointsNew - 2] = timeAxisNew;
-			points[i][numOfPointsNew - 1] = mMyScale.myScaledValue(values[i]);
-			//punkt do nastêpnej linii
-			points[i][numOfPointsNew] = timeAxisNew;
-			points[i][numOfPointsNew + 1] = points[i][numOfPointsNew - 1];
-			
-		}
-		
-		invalidate();
-		*/
 	}
 }

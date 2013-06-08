@@ -32,8 +32,14 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 	private static final String TAG = "DrawView";
 	private static final boolean D = true;
 
-	private float MIN_ZOOM = 1f;
-	private float MAX_ZOOM = 20f;
+	/**
+	 * minimalna wartoœæ zoomowania amplitudy, osi Y
+	 */
+	protected float MIN_ZOOM_Y = 1f;
+	/**
+	 * maksymalna wartoœæ zoomowania amplitudy, osi Y
+	 */
+	protected float MAX_ZOOM_Y = 20f;
 	 
 
 	protected int mViewWidth, mViewWidth2;
@@ -123,8 +129,119 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 	
 	
 	
+	
+	
+	/* (non-Javadoc)
+	 * @see android.view.View#onTouchEvent(android.view.MotionEvent)
+	 */
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		// Let the ScaleGestureDetector inspect all events.
+		mScaleGestureDetector.onTouchEvent(event);
+		mGestureDetector.onTouchEvent(event);
+		//super.onTouchEvent(event);
+		
+        return true;
+        		
+	}
+	
+	protected void longPressHandOver(MotionEvent event){
+		super.onTouchEvent(event);
+		
+	}
+	
 	/**
-	 * inicjalizuje parametry okna z wykresem
+	 * 
+	 * @author Krzys
+	 *	do przekazywania d³ugiego przyciœniêcia wykresu DrawView
+	 */
+	private class MyGestureDetector extends SimpleOnGestureListener {
+
+		
+		/* (non-Javadoc)
+		 * @see android.view.GestureDetector.SimpleOnGestureListener#onLongPress(android.view.MotionEvent)
+		 */
+		@Override
+		public void onLongPress(MotionEvent e) {
+			// TODO Auto-generated method stub
+			//super.onLongPress(e);
+			longPressHandOver(e);
+		}
+
+		
+	}
+		
+	private class MyScaleGestureDetector extends SimpleOnScaleGestureListener {
+		
+		
+		@Override
+		public boolean onScale(ScaleGestureDetector detector) {
+			//contextMenuBlock = true;
+			
+			float temp = detector.getScaleFactor();
+			scaleFactor *= temp;
+			scaleFactor = Math.max(MIN_ZOOM_Y, Math.min(scaleFactor, MAX_ZOOM_Y));
+			
+			mMaximumRange = sensor.getMaximumRange()/scaleFactor;
+			mMinimumRange = -sensor.getMaximumRange()/scaleFactor;//getMinimumRange();
+			
+			scaleMaxText = Float.toString(mMaximumRange);
+			scaleMinText = Float.toString(mMinimumRange);
+			
+			rebuildScale();
+			
+			//TODO: to chyba nie potrzebne jest sprawdziï¿½ czy dziaï¿½a bez tego
+			invalidate();
+			
+			return true;
+		}
+
+		
+	}
+	
+	
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		if (D) Log.d(TAG, "+ ON SIZE CHANGED +");
+		
+		mViewWidth = w;
+		mViewHeight = h;
+		mViewWidth2 = w/2;
+		mViewHeight2 = h/2;
+		
+		timeAxisNew = 0;
+		numOfPointsNew = 0;
+		points = null;
+		
+		rebuildScale();
+		//super.onSizeChanged(w, h, oldw, oldh);
+	}
+			
+	/* (non-Javadoc)
+	 * @see android.view.View#onDraw(android.graphics.Canvas)
+	 */
+	@Override
+	protected void onDraw(Canvas canvas) {
+		//super.onDraw(canvas);
+		//jeï¿½li nie zainicjowane to wyjdï¿½
+		if(points == null) return;
+		
+		canvas.drawLines(points[0], 0, numOfPointsNew, paintDraw);
+		canvas.drawText(scaleMaxText, 0, paintTextBlack.getTextSize(), paintTextBlack);
+		canvas.drawText(scaleMinText, 0, mViewHeight, paintTextBlack);
+		
+		canvas.drawText(sensorNameText, mViewWidth, paintTextBlack.getTextSize(), paintTextRedRight);
+		
+		if(recorded)
+			canvas.drawCircle(mViewHeight, mViewWidth, 5, paintDrawRed);
+		
+		// and make sure to redraw asap
+        invalidate();
+		
+	}
+
+	/**
+	 * inicjalizuje parametry okna z wykresem; WYWO£YWANA przez konstruktor
 	 * @param context parametr pobierany z kontruktora DrawView
 	 */
 	protected void initDrawView(Context context){
@@ -169,124 +286,16 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 				
 		//this.setHorizontalScrollBarEnabled(true);
 	}
-	
-	
-	
-	/* (non-Javadoc)
-	 * @see android.view.View#onTouchEvent(android.view.MotionEvent)
-	 */
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		// Let the ScaleGestureDetector inspect all events.
-		mScaleGestureDetector.onTouchEvent(event);
-		mGestureDetector.onTouchEvent(event);
-		//super.onTouchEvent(event);
-		
-        return true;
-        		
-	}
-	
-	public void longPressHandOver(MotionEvent event){
-		super.onTouchEvent(event);
-		
-	}
-	
-	private class MyGestureDetector extends SimpleOnGestureListener {
-
-		
-		/* (non-Javadoc)
-		 * @see android.view.GestureDetector.SimpleOnGestureListener#onLongPress(android.view.MotionEvent)
-		 */
-		@Override
-		public void onLongPress(MotionEvent e) {
-			// TODO Auto-generated method stub
-			//super.onLongPress(e);
-			longPressHandOver(e);
-		}
-
-		
-	}
-		
-	private class MyScaleGestureDetector extends SimpleOnScaleGestureListener {
-		
-		
-		@Override
-		public boolean onScale(ScaleGestureDetector detector) {
-			//contextMenuBlock = true;
-			
-			float temp = detector.getScaleFactor();
-			scaleFactor *= temp;
-			scaleFactor = Math.max(MIN_ZOOM, Math.min(scaleFactor, MAX_ZOOM));
-			
-			mMaximumRange = sensor.getMaximumRange()/scaleFactor;
-			mMinimumRange = -sensor.getMaximumRange()/scaleFactor;//getMinimumRange();
-			
-			scaleMaxText = Float.toString(mMaximumRange);
-			scaleMinText = Float.toString(mMinimumRange);
-			
-			rebuildScale();
-			
-			//TODO: to chyba nie potrzebne jest sprawdziï¿½ czy dziaï¿½a bez tego
-			invalidate();
-			
-			return true;
-		}
-
-		
-	}
-	
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		if (D) Log.d(TAG, "+ ON SIZE CHANGED +");
-		
-		mViewWidth = w;
-		mViewHeight = h;
-		mViewWidth2 = w/2;
-		mViewHeight2 = h/2;
-		
-		timeAxisNew = 0;
-		numOfPointsNew = 0;
-		points = null;
-		
-		rebuildScale();
-		//super.onSizeChanged(w, h, oldw, oldh);
-	}
-	
-		
-	/* (non-Javadoc)
-	 * @see android.view.View#onDraw(android.graphics.Canvas)
-	 */
-	@Override
-	protected void onDraw(Canvas canvas) {
-		//super.onDraw(canvas);
-		//jeï¿½li nie zainicjowane to wyjdï¿½
-		if(points == null) return;
-		
-		canvas.drawLines(points[0], 0, numOfPointsNew, paintDraw);
-		canvas.drawText(scaleMaxText, 0, paintTextBlack.getTextSize(), paintTextBlack);
-		canvas.drawText(scaleMinText, 0, mViewHeight, paintTextBlack);
-		
-		canvas.drawText(sensorNameText, mViewWidth, paintTextBlack.getTextSize(), paintTextRedRight);
-		
-		if(recorded)
-			canvas.drawCircle(mViewHeight, mViewWidth, 5, paintDrawRed);
-		
-		// and make sure to redraw asap
-        invalidate();
-		
-	}
-	
 		
 	/**
-	 * funkcja wywoï¿½ywana z Activity po zmianie dokï¿½adnoï¿½ci wewnï¿½trznego czujnika
+	 * funkcja inicjalizuj¹ca DrawView danymi z danego czujnika; WYWO£YWANA przez konstruktor
 	 * inicjalizuje parametry skalowania dla wykresu 
 	 * mMaximumRange, mMinimumRange, mResolution 
-	 * odbudowywuje skalï¿½ rebuildScale();
-	 * oraz wraca na poczï¿½tekwykresu
+	 
 	 * @param sensor czujnik
-	 * @param accuracy dokï¿½adnoï¿½ï¿½
+	 * @param sensorManager MySensorManager do zarejestrowania nas³uchiwania czujnika
 	 */
-	public void sensorInit(MySensor sensor, MySensorManager sensorManager) {
+	protected void sensorInit(MySensor sensor, MySensorManager sensorManager) {
 		//TODO: coï¿½ tu dziwnie dziaï¿½a
 		mMaximumRange = sensor.getMaximumRange();
 		mMinimumRange = -sensor.getMaximumRange();//getMinimumRange();
@@ -296,7 +305,7 @@ public class DrawView extends View implements OnMySensorChanegedListener //imple
 		this.sensor = sensor;
 		this.sensorManager = sensorManager;
 		
-		MAX_ZOOM = mMaximumRange/mResolution;
+		MAX_ZOOM_Y = mMaximumRange/mResolution;
 		
 		scaleMaxText = Float.toString((int) mMaximumRange);
 		scaleMinText = Float.toString((int) mMinimumRange);
